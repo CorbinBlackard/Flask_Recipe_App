@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Details for {{recipe.title}}: </h1>
+<h2>Prep Time ~ {{recipe.prep_time}} minutes </h2>
+{% if recipe.cook_time > 0 %}
+<h2>Cook Time ~ {{recipe.cook_time}} minutes </h2>
+{% endif %}
+{% if recipe not in current_user.favorite_recipes %}
+<a href="{{url_for('add_favorite', recipe_id=recipe.recipe_id)}}">Add to your favorites</a>
+{% elif recipe in current_user.favorite_recipes %}
+<a href="{{url_for('remove_favorite', recipe_id=recipe.recipe_id)}}">Remove from favorites</a>
+{% endif %}
+<ul>
+	<li><strong>Description:</strong> {{recipe.description}} </li>
+	<li><strong>Ingredients:</strong>
+		<ul>
+			{% for i in recipe.ingredients %}
+			<li> {{i}} </li>
+			{% endfor %}
+		</ul>
+	</li>
+	<li>Instructions:
+		<ul>
+			{% for i in recipe.instructions %}
+			<li> {{i}} </li>
+			{% endfor %}
+		</ul>
+	</li>
+	<li>Difficulty Level: {{recipe.difficulty}} </li>
+	<li>Cuisine Type: {{recipe.cuisine}} </li>
+	<li>Recipe Created On: {{recipe.created_date.strftime('%D')}} </li>
+</ul>
+
+
+<p><a href="{{url_for('index')}}">Back to All Recipes</a></p>
+{% endblock %}

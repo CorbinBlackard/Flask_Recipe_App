@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}{{user.name}}'s Recipes{% endblock %}
+
+{% block content %}
+<h1>{{user.name}}'s Recipe Box</h1>
+
+<h2>My Recipes ({{user.my_recipes|length}})</h2>
+{% if user.my_recipes %}
+<ul>
+	{% for recipe in user.my_recipes %}
+	<li>
+		<a href="{{ url_for('recipe_detail', recipe_id=recipe.recipe_id) }}">
+			{{recipe.title}}
+		</a>
+		- {{recipe.difficulty}} | {{recipe.cuisine}}
+	</li>
+	{% endfor %}
+</ul>
+{% else %}
+<p>No recipes added yet.</p>
+{% endif %}
+
+<h2>Favorite Recipes ({{user.favorite_recipes|length}})</h2>
+{% for favorite in user.favorite_recipes %}
+<ul>
+	<li> {{favorite.title}} </li>
+</ul>
+{% endfor %}
+
+<p><a href="{{ url_for('index') }}">← Back to all recipes</a></p>
+{% endblock %}

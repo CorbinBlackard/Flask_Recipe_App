@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Look at all these recipes!</h1>
+{% for recipe in recipes %}
+<p>
+	<a href="{{ url_for('recipe_detail', recipe_id=recipe.recipe_id) }}">
+		{{recipe.title}}
+	</a>{% if recipe in current_user.favorite_recipes %}
+	⭐
+	{% endif %}
+	~ {{recipe.prep_time}} minutes.
+</p>
+{% endfor %}
+{% set fav_word = 'favorite' if current_user.favorite_recipes|length == 1 else 'favorites' %}
+<footer>⭐ = favorite recipe ({{current_user.favorite_recipes|length}} {{fav_word}})</footer>
+{% endblock %}
