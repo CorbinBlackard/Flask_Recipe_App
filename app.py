@@ -10,6 +10,7 @@ def index():
 @app.route('/recipe_detail/<int:recipe_id>')
 def recipe_detail(recipe_id):
 	recipe = next((r for r in recipes if r.recipe_id==recipe_id), None)
+	total_time = recipe.prep_time + recipe.cook_time
 	if recipe:
 		return render_template('recipe_detail.html', recipe=recipe, recipes=recipes, current_user=current_user)
 	else:

@@ -1,9 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Details for {{recipe.title}}: </h1>
-<h2>Prep Time ~ {{recipe.prep_time}} minutes </h2>
+<h1>
+	<p>{{recipe.title}}
+		{% set total_time = recipe.prep_time + recipe.cook_time %}
+		{% if total_time < 20 %} ⚡ Quick {% elif total_time <=45 %} 🕐 Medium {% else %} ⏳ Slow {% endif %} ~
+			{{total_time}} total minutes </p>
+</h1>
+
+
+
+<!-- <h1>Details for {{recipe.title}}: ~{{total_time}} minutes</h1> -->
+<h3>Prep Time ~ {{recipe.prep_time}} minutes </h3>
 {% if recipe.cook_time > 0 %}
-<h2>Cook Time ~ {{recipe.cook_time}} minutes </h2>
+<h3>Cook Time ~ {{recipe.cook_time}} minutes </h3>
 {% endif %}
 {% if recipe not in current_user.favorite_recipes %}
 <a href="{{url_for('add_favorite', recipe_id=recipe.recipe_id)}}">Add to your favorites</a>
@@ -30,7 +39,6 @@
 	<li>Cuisine Type: {{recipe.cuisine}} </li>
 	<li>Recipe Created On: {{recipe.created_date.strftime('%D')}} </li>
 </ul>
-
 
 <p><a href="{{url_for('index')}}">Back to All Recipes</a></p>
 {% endblock %}
